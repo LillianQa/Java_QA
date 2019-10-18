@@ -11,7 +11,7 @@ public class Point {
   }
 
   public double distance(Point p) {
-    return this.getX() - p.getX() + this.getY() - p.getY();
+    return Math.sqrt((Math.pow(this.getX() - p.getX(), 2)) + (Math.pow(this.getY() - p.getY(), 2)));
   }
 
   public double getX() {
@@ -24,8 +24,8 @@ public class Point {
 
   public static void main (String[] args) {
 
-    Point p1 = new Point(5.6, 7.3);
-    Point p2 = new Point(8.6, 2.5);
+    Point p1 = new Point(9.0, 4.0);
+    Point p2 = new Point(4.5, 3.0);
 
     System.out.println("Odlegosc od " + p1.x + " i " +  p1.y + " oraz " +  p2.x  + " i " + p2.y  + " wynosi " + p1.distance(p2) );
   }}
