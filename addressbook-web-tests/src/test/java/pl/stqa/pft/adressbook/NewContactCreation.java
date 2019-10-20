@@ -2,28 +2,27 @@ package pl.stqa.pft.adressbook;
 
 import java.util.concurrent.TimeUnit;
 import org.testng.annotations.*;
-import static org.testng.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class NewContactCreation {
-  private WebDriver driver;
+  private WebDriver wd;
 
   @BeforeMethod(alwaysRun = true)
   public void setUp() throws Exception {
-    driver = new FirefoxDriver();
-    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-    driver.get("http://localhost/addressbook/edit.php");
+    wd = new FirefoxDriver();
+    wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    wd.get("http://localhost/addressbook/edit.php");
     login("admin", "secret");
   }
 
   private void login(String username, String password) {
-    driver.findElement(By.name("user")).clear();
-    driver.findElement(By.name("user")).sendKeys(username);
-    driver.findElement(By.id("LoginForm")).click();
-    driver.findElement(By.name("pass")).clear();
-    driver.findElement(By.name("pass")).sendKeys(password);
-    driver.findElement(By.xpath("//input[@value='Login']")).click();
+    wd.findElement(By.name("user")).clear();
+    wd.findElement(By.name("user")).sendKeys(username);
+    wd.findElement(By.id("LoginForm")).click();
+    wd.findElement(By.name("pass")).clear();
+    wd.findElement(By.name("pass")).sendKeys(password);
+    wd.findElement(By.xpath("//input[@value='Login']")).click();
   }
 
   @Test
@@ -34,32 +33,32 @@ public class NewContactCreation {
   }
 
   private void submitNewContactForm() {
-    driver.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
+    wd.findElement(By.xpath("(//input[@name='submit'])[2]")).click();
   }
 
   private void fillNewContactForm(newContactData newContactData) {
-    driver.findElement(By.name("firstname")).clear();
-    driver.findElement(By.name("firstname")).sendKeys(newContactData.getFirstname());
-    driver.findElement(By.name("lastname")).clear();
-    driver.findElement(By.name("lastname")).sendKeys(newContactData.getLastname());
-    driver.findElement(By.name("title")).clear();
-    driver.findElement(By.name("title")).sendKeys(newContactData.getTitle());
-    driver.findElement(By.name("company")).clear();
-    driver.findElement(By.name("company")).sendKeys(newContactData.getCompany());
-    driver.findElement(By.name("home")).clear();
-    driver.findElement(By.name("home")).sendKeys(newContactData.getHome());
-    driver.findElement(By.name("mobile")).clear();
-    driver.findElement(By.name("mobile")).sendKeys(newContactData.getMobilenumber());
-    driver.findElement(By.name("email")).clear();
-    driver.findElement(By.name("email")).sendKeys(newContactData.getEmail());
+    wd.findElement(By.name("firstname")).clear();
+    wd.findElement(By.name("firstname")).sendKeys(newContactData.getFirstname());
+    wd.findElement(By.name("lastname")).clear();
+    wd.findElement(By.name("lastname")).sendKeys(newContactData.getLastname());
+    wd.findElement(By.name("title")).clear();
+    wd.findElement(By.name("title")).sendKeys(newContactData.getTitle());
+    wd.findElement(By.name("company")).clear();
+    wd.findElement(By.name("company")).sendKeys(newContactData.getCompany());
+    wd.findElement(By.name("home")).clear();
+    wd.findElement(By.name("home")).sendKeys(newContactData.getHome());
+    wd.findElement(By.name("mobile")).clear();
+    wd.findElement(By.name("mobile")).sendKeys(newContactData.getMobilenumber());
+    wd.findElement(By.name("email")).clear();
+    wd.findElement(By.name("email")).sendKeys(newContactData.getEmail());
   }
 
   private void gotoAddNewContactPage() {
-    driver.findElement(By.linkText("add new")).click();
+    wd.findElement(By.linkText("add new")).click();
   }
 
   @AfterMethod(alwaysRun = true)
   public void tearDown() throws Exception {
-    driver.quit();
+    wd.quit();
     }
   }
