@@ -5,8 +5,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import pl.stqa.pft.adressbook.model.newContactData;
 
 public class ContactHelper extends HelperBase{
+
   public ContactHelper(FirefoxDriver wd) {
     super(wd);
+
   }
 
   public  void submitNewContactForm() {
@@ -26,4 +28,5 @@ public class ContactHelper extends HelperBase{
   public  void gotoAddNewContactPage() {
     click(By.linkText("add new"));
   }
+
 }

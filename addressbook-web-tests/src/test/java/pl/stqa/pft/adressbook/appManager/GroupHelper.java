@@ -43,4 +43,25 @@ public class GroupHelper extends HelperBase{
   public void submitGroupModification() {
     click(By.name("update"));
   }
+
+  public void gotoHomePage() {
+    click(By.linkText("home"));
+  }
+
+  public void chooseContact() {
+    click(By.name("selected[]"));
+  }
+
+  public void deleteContact() {
+    click(By.xpath("//*[@id='maintable']/tbody[1]/tr[2]/td[8]/a[1]/img[1]"));
+  }
+
+  public void editContact() {
+    click(By.xpath("//td[8]/a/img"));
+  }
+
+  public void updateContact() {
+    click(By.name("update"));
+  }
+
 }
