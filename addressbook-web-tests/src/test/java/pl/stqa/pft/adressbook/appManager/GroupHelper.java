@@ -64,4 +64,8 @@ public class GroupHelper extends HelperBase{
     click(By.name("update"));
   }
 
+  public void switchtoAlert() {
+    wd.switchTo().alert().accept();
+  }
+
 }
