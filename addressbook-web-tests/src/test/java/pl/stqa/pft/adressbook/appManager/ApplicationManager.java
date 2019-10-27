@@ -3,8 +3,11 @@ package pl.stqa.pft.adressbook.appManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.safari.SafariDriver;
-import sun.plugin2.util.BrowserType;
+
+
+
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,11 +27,11 @@ public class ApplicationManager {
 
   public  void init() {
 
-      if (browser.equals(BrowserType.MOZILLA)) {
+      if (browser.equals(BrowserType.FIREFOX)) {
         wd = new FirefoxDriver();
-      } else if (browser.equals(BrowserType.DEFAULT)) {
+      } else if (browser.equals(BrowserType.CHROME)) {
         wd = new ChromeDriver();
-      } else if (browser.equals(BrowserType.SAFARI_MACOSX)) {
+      } else if (browser.equals(BrowserType.SAFARI)) {
         wd = new SafariDriver();
       }
     wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
