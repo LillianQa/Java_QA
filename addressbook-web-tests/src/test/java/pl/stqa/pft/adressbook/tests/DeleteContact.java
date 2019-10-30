@@ -8,11 +8,10 @@ public class DeleteContact extends TestBase {
   @Test
   public void testDeleteContact() {
 
-    app.getGroupHelper().gotoHomePage();
-    app.getGroupHelper().chooseContact();
-    app.getGroupHelper().deleteContact();
+    app.getNavigationHelper().gotoHomePage();
+    app.getContactHelper().chooseContact();
+    app.getContactHelper().deleteContact();
     app.getGroupHelper().switchtoAlert();
-    app.getGroupHelper().returnGroupPage();
   }
 
 }

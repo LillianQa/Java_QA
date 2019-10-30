@@ -1,12 +1,11 @@
 package pl.stqa.pft.adressbook.appManager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
 import pl.stqa.pft.adressbook.model.GroupData;
 
-public class GroupHelper extends HelperBase{
-
-  public GroupHelper(FirefoxDriver wd) {
+public class GroupHelper extends HelperBase {
+  public GroupHelper (WebDriver wd) {
     super(wd);
   }
 
@@ -41,26 +40,6 @@ public class GroupHelper extends HelperBase{
   }
 
   public void submitGroupModification() {
-    click(By.name("update"));
-  }
-
-  public void gotoHomePage() {
-    click(By.linkText("home"));
-  }
-
-  public void chooseContact() {
-    click(By.name("selected[]"));
-  }
-
-  public void deleteContact() {
-    click(By.xpath("//*[@id='maintable']/tbody[1]/tr[2]/td[8]/a[1]/img[1]"));
-  }
-
-  public void editContact() {
-    click(By.xpath("//td[8]/a/img"));
-  }
-
-  public void updateContact() {
     click(By.name("update"));
   }
 
