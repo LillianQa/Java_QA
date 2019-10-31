@@ -45,10 +45,20 @@ public class ContactHelper extends HelperBase {
   }
 
   public void editContact() {
-    click(By.xpath("//td[8]/a/img"));
+    click(By.xpath("//img[@alt='Edit']"));
   }
 
   public void updateContact() {
     click(By.name("update"));
+  }
+
+  public boolean isContactPresent() {
+    return isElementPresent(By.name("selected[]"));
+  }
+
+  public void getContact(newContactData contactData, boolean b) {
+    gotoAddNewContactPage();
+    fillNewContactForm((contactData), true);
+    submitNewContactForm();
   }
 }
