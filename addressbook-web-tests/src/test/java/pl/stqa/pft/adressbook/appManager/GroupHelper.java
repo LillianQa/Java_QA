@@ -47,4 +47,15 @@ public class GroupHelper extends HelperBase {
     wd.switchTo().alert().accept();
   }
 
+  public void createGroup(GroupData group) {
+    initGroupCreation();
+    fillGroupForm((group));
+    submitGroupCreation();
+    returnGroupPage();
+  }
+
+  public boolean isThereAGroup() {
+    return isElementPresent(By.name("selected[]"));
+
+  }
 }
