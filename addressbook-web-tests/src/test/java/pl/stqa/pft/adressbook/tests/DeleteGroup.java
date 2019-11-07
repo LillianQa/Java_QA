@@ -5,21 +5,26 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 import pl.stqa.pft.adressbook.model.GroupData;
 
+import java.util.List;
+
 
 public class DeleteGroup extends TestBase {
 
   @Test
   public void testDeleteGroup() {
     app.getNavigationHelper().gotoGroupPage();
-    int before = app.getGroupHelper().getGroupCount();
-    app.getGroupHelper().selectGroup(before - 1);
+    List<GroupData> before = app.getGroupHelper().getGroupList();
     if (! app.getGroupHelper().isThereAGroup()) {
-      app.getGroupHelper().createGroup(new GroupData("test1", null, "test4"));
+      app.getGroupHelper().createGroup(new GroupData("test1", null, null));
     }
+    app.getGroupHelper().selectGroup(before.size() -1);
     app.getGroupHelper().deleteSelectedGroup();
     app.getGroupHelper().returnGroupPage();
-    int after = app.getGroupHelper().getGroupCount();
-    Assert.assertEquals(after, before - 1);
+    List<GroupData> after = app.getGroupHelper().getGroupList();
+    Assert.assertEquals(after.size(), before.size() - 1);
+
+    before.remove(before.size() -1); // we need to remove given element before comparision the list
+    Assert.assertEquals(before, after);
+    }
   }
 
-}
