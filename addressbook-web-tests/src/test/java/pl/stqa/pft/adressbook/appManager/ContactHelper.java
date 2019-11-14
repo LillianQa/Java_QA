@@ -2,9 +2,14 @@ package pl.stqa.pft.adressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import pl.stqa.pft.adressbook.model.GroupData;
 import pl.stqa.pft.adressbook.model.newContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
   public ContactHelper(WebDriver wd) {
@@ -32,7 +37,7 @@ public class ContactHelper extends HelperBase {
     }
   }
 
-  public  void gotoAddNewContactPage() {
+  public void gotoAddNewContactPage() {
     click(By.linkText("add new"));
   }
 
@@ -60,5 +65,26 @@ public class ContactHelper extends HelperBase {
     gotoAddNewContactPage();
     fillNewContactForm((contactData), true);
     submitNewContactForm();
+  }
+
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
+  }
+
+  public int getContactCount() {
+    return wd.findElements(By.name("selected[]")).size(); // retrun all elements on the list
+  }
+
+  public List<newContactData> getContactList() {
+    List<newContactData> contacts = new ArrayList<newContactData>();
+    List<WebElement> elements = wd.findElements(By.cssSelector("td.center:nth-child(1)")); // find all elements in td.center
+    for (WebElement element : elements) {
+      String firstname = element.getText();
+      String lastname = element.getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); // we use this to the comparision the list with help of unique value
+      newContactData contact = new newContactData(id, firstname, lastname, null, null, null, null, null, null);
+      contacts.add(contact);
+    }
+    return contacts;
   }
 }
