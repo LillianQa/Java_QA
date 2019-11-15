@@ -11,16 +11,15 @@ import java.util.List;
 public class NewContactCreation extends TestBase {
 
 
-  @Test
+  @Test(enabled = false)
   public void testNewContactCreation() {
-    app.getNavigationHelper().gotoHomePage();
-    List<newContactData> before = app.getContactHelper().getContactList();
-    newContactData contact = new newContactData("Admin", "Admin2", "Title",
-            "Company", "Poland", "+48 678 876 987",
-            "admin@onet.pl", "test1");
-    app.getContactHelper().getContact(contact, true);
-    app.getNavigationHelper().gotoHomePage();
-    List<newContactData> after = app.getContactHelper().getContactList();
+    app.goTo().HomePage();
+    List<newContactData> before = app.contact().list();
+    newContactData contact = new newContactData().withFirstname("Admin").withLastname("Admin2")
+            .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987");
+    app.contact().getContact(contact, true);
+    app.goTo().HomePage();
+    List<newContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size() + 1);
 
     contact.setId(after.stream().max(Comparator.comparingInt(newContactData::getId)).get().getId());

@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import pl.stqa.pft.adressbook.model.GroupData;
 import pl.stqa.pft.adressbook.model.newContactData;
 
 import java.util.ArrayList;
@@ -67,6 +66,18 @@ public class ContactHelper extends HelperBase {
     submitNewContactForm();
   }
 
+  public void modify(int index, newContactData contacts) {
+    selectContact(index);
+    editContact();
+    fillNewContactForm(contacts, false);
+    updateContact();
+  }
+
+  public void delete(int index) {
+    selectContact(index);
+    deleteContact();
+  }
+
   public void selectContact(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
@@ -75,14 +86,14 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size(); // retrun all elements on the list
   }
 
-  public List<newContactData> getContactList() {
+  public List<newContactData> list() {
     List<newContactData> contacts = new ArrayList<newContactData>();
     List<WebElement> elements = wd.findElements(By.cssSelector("td.center:nth-child(1)")); // find all elements in td.center
     for (WebElement element : elements) {
       String firstname = element.getText();
       String lastname = element.getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); // we use this to the comparision the list with help of unique value
-      newContactData contact = new newContactData(id, firstname, lastname, null, null, null, null, null, null);
+      newContactData contact = new newContactData().withId(id).withFirstname(firstname).withLastname(lastname);
       contacts.add(contact);
     }
     return contacts;

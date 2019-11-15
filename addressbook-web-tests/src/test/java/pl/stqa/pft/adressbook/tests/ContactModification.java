@@ -1,6 +1,7 @@
 package pl.stqa.pft.adressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pl.stqa.pft.adressbook.model.newContactData;
 
@@ -10,26 +11,27 @@ import java.util.List;
 
 public class ContactModification extends TestBase {
 
-
-  @Test
-  public void testContactModification() {
-    app.getNavigationHelper().gotoHomePage();
-    if (! app.getContactHelper().isContactPresent()) {
-      app.getContactHelper().getContact(new newContactData("Admin", "Admnin2", "Title", "Company",
-              "Poland", "+48 678 876 987", "admin@onet.pl", "test1"), false);
+  @BeforeMethod
+  public void ensurePrecondition() {
+    app.goTo().HomePage();
+    if (app.contact().list().size() == 0) {
+      app.contact().getContact(new newContactData().withFirstname("Admin").withLastname("Admin2")
+              .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987"), false);
     }
-    List<newContactData> before = app.getContactHelper().getContactList();
-    app.getContactHelper().selectContact(before.size() -1);
-    app.getContactHelper().editContact();
-    newContactData contacts = new newContactData(before.get(before.size() -1).getId(), "Admin", "Admnin2", "Title", "Company",
-            "Poland", "+48 678 876 987", "admin@onet.pl", "test1");
-    app.getContactHelper().fillNewContactForm(contacts, false);
-    app.getContactHelper().updateContact();
-    app.getNavigationHelper().gotoHomePage();
-    List<newContactData> after = app.getContactHelper().getContactList();
+  }
+
+  @Test(enabled = false)
+  public void testContactModification() {
+    List<newContactData> before = app.contact().list();
+    int index = before.size() -1;
+    newContactData contacts = new newContactData().withId(before.get(index).getId()).withFirstname("Admin").withLastname("Admin2")
+            .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987");
+    app.goTo().HomePage();
+    app.contact().modify(index, contacts);
+    List<newContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size());
 
-    before.remove(before.size() -1);
+    before.remove(index);
     before.add(contacts);
     Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
   }

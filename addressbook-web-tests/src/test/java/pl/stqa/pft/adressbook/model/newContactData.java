@@ -1,39 +1,15 @@
 package pl.stqa.pft.adressbook.model;
 
 public class newContactData {
-  private int id;
-  private final String firstname;
-  private final String lastname;
-  private final String title;
-  private final String company;
-  private final String home;
-  private final String mobilenumber;
-  private final String email;
-  private final String group;
-
-  public newContactData(String firstname, String lastname, String title, String company, String home, String mobilenumber, String email, String group) {
-    this.id = Integer.MAX_VALUE;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.title = title;
-    this.company = company;
-    this.home = home;
-    this.mobilenumber = mobilenumber;
-    this.email = email;
-    this.group = group;
-  }
-
-  public newContactData(int id, String firstname, String lastname, String title, String company, String home, String mobilenumber, String email, String group) {
-    this.id = id;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.title = title;
-    this.company = company;
-    this.home = home;
-    this.mobilenumber = mobilenumber;
-    this.email = email;
-    this.group = group;
-  }
+  private int id = Integer.MAX_VALUE;
+  private String firstname;
+  private String lastname;
+  private String title;
+  private String company;
+  private String home;
+  private String mobilenumber;
+  private String email;
+  private String group;
 
   public int getId() {
     return id;
@@ -41,6 +17,51 @@ public class newContactData {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public newContactData withId (int id) {
+    this.id = id;
+    return this;
+  }
+
+  public newContactData withFirstname(String firstname) {
+    this.firstname = firstname;
+    return this;
+  }
+
+  public newContactData withLastname(String lastname) {
+    this.lastname = lastname;
+    return this;
+  }
+
+  public newContactData withTitle(String title) {
+    this.title = title;
+    return this;
+  }
+
+  public newContactData withCompany(String company) {
+    this.company = company;
+    return this;
+  }
+
+  public newContactData withHome(String home) {
+    this.home = home;
+    return this;
+  }
+
+  public newContactData withMobilenumber(String mobilenumber) {
+    this.mobilenumber = mobilenumber;
+    return this;
+  }
+
+  public newContactData withEmail(String email) {
+    this.email = email;
+    return this;
+  }
+
+  public newContactData withGroup(String group) {
+    this.group = group;
+    return this;
   }
 
   public String getFirstname() {
