@@ -1,5 +1,6 @@
 package pl.stqa.pft.adressbook.tests;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.stqa.pft.adressbook.model.newContactData;
@@ -7,28 +8,26 @@ import pl.stqa.pft.adressbook.model.newContactData;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class NewContactCreation extends TestBase {
 
 
-  @Test(enabled = false)
+
+  @Test
   public void testNewContactCreation() {
     app.goTo().HomePage();
-    List<newContactData> before = app.contact().list();
-    newContactData contact = new newContactData().withFirstname("Admin").withLastname("Admin2")
+    Set<newContactData> before = app.contact().all();
+    newContactData contactData = new newContactData().withFirstname("Admin").withLastname("Admin2")
             .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987");
-    app.contact().getContact(contact, true);
+    app.contact().getContact(contactData, true);
     app.goTo().HomePage();
-    List<newContactData> after = app.contact().list();
+    Set<newContactData> after = app.contact().all();
     Assert.assertEquals(after.size(), before.size() + 1);
-
-    contact.setId(after.stream().max(Comparator.comparingInt(newContactData::getId)).get().getId());
-    before.add(contact);
-    Comparator<?super newContactData> byId = Comparator.comparingInt(newContactData::getId);
-
-    before.sort(byId);
-    after.sort(byId);
-    Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after)); // przekształcenie listy w zbiory
+    contactData.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());
+    before.add(contactData);
+    Assert.assertEquals(before, after); // przekształcenie listy w zbiory
   }
 
 }

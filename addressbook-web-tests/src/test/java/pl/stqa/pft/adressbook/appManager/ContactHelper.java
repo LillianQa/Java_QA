@@ -5,10 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import pl.stqa.pft.adressbook.model.GroupData;
 import pl.stqa.pft.adressbook.model.newContactData;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
   public ContactHelper(WebDriver wd) {
@@ -30,7 +32,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("email"), newContactData.getEmail());
 
     if (creation) {
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(newContactData.getGroup());
+      new Select(wd.findElement(By.name("new_group")));
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -49,7 +51,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void editContact() {
-    click(By.xpath("//img[@alt='Edit']"));
+    click(By.xpath("//tr[2]//td[8]"));
   }
 
   public void updateContact() {
@@ -60,21 +62,22 @@ public class ContactHelper extends HelperBase {
     return isElementPresent(By.name("selected[]"));
   }
 
-  public void getContact(newContactData contactData, boolean b) {
+  public void getContact(newContactData contacts, boolean b) {
     gotoAddNewContactPage();
-    fillNewContactForm((contactData), true);
+    fillNewContactForm(contacts, true);
     submitNewContactForm();
   }
 
-  public void modify(int index, newContactData contacts) {
-    selectContact(index);
+  public void modify(newContactData contacts) {
+//    selectContactbyId(contacts.getId());
     editContact();
     fillNewContactForm(contacts, false);
     updateContact();
   }
 
-  public void delete(int index) {
-    selectContact(index);
+
+  public void delete(newContactData contact) {
+    selectContactbyId(contact.getId());
     deleteContact();
   }
 
@@ -82,16 +85,22 @@ public class ContactHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
+  private void selectContactbyId(int id) {
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+
+  }
+
   public int getContactCount() {
     return wd.findElements(By.name("selected[]")).size(); // retrun all elements on the list
   }
 
-  public List<newContactData> list() {
-    List<newContactData> contacts = new ArrayList<newContactData>();
-    List<WebElement> elements = wd.findElements(By.cssSelector("td.center:nth-child(1)")); // find all elements in td.center
+  public Set<newContactData> all() {
+    Set<newContactData> contacts = new HashSet<>();
+    List<WebElement> elements = wd.findElements(By.cssSelector("div:nth-child(4) form:nth-child(10) table.sortcompletecallback-applyZebra:nth-child(2) tbody:nth-child(1) > tr:nth-child(2)")); // find all elements in td.entry
+    List<WebElement> cells = wd.findElements(By.tagName("td"));
     for (WebElement element : elements) {
-      String firstname = element.getText();
-      String lastname = element.getText();
+      String lastname = cells.get(1).getText();
+      String firstname = cells.get(2).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); // we use this to the comparision the list with help of unique value
       newContactData contact = new newContactData().withId(id).withFirstname(firstname).withLastname(lastname);
       contacts.add(contact);
