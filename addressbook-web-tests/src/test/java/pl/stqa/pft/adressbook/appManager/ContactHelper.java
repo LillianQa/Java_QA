@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import pl.stqa.pft.adressbook.model.Contacts;
 import pl.stqa.pft.adressbook.model.GroupData;
 import pl.stqa.pft.adressbook.model.newContactData;
 
@@ -94,8 +95,8 @@ public class ContactHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size(); // retrun all elements on the list
   }
 
-  public Set<newContactData> all() {
-    Set<newContactData> contacts = new HashSet<>();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
     List<WebElement> elements = wd.findElements(By.cssSelector("div:nth-child(4) form:nth-child(10) table.sortcompletecallback-applyZebra:nth-child(2) tbody:nth-child(1) > tr:nth-child(2)")); // find all elements in td.entry
     List<WebElement> cells = wd.findElements(By.tagName("td"));
     for (WebElement element : elements) {

@@ -1,12 +1,13 @@
 package pl.stqa.pft.adressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pl.stqa.pft.adressbook.model.Contacts;
 import pl.stqa.pft.adressbook.model.newContactData;
 
-import java.util.List;
-import java.util.Set;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 
 public class DeleteContact extends TestBase {
@@ -25,17 +26,16 @@ public class DeleteContact extends TestBase {
   @Test
   public void testDeleteContact() throws InterruptedException {
     Thread.sleep(1000);
-    Set<newContactData> before = app.contact().all();
+    Contacts before = app.contact().all();
     newContactData deletedContact = before.iterator().next();
     app.contact().delete(deletedContact);
     app.group().switchtoAlert();
     app.goTo().HomePage();
     Thread.sleep(1000);
-    Set<newContactData> after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size() - 1);
+    Contacts after = app.contact().all();
+    assertEquals(after.size(), before.size() - 1);
 
-    before.remove(deletedContact); // we need to remove given element before comparision the list
-    Assert.assertEquals(before, after);
+    assertThat(after, equalTo(before.without(deletedContact)));
 
   }
 

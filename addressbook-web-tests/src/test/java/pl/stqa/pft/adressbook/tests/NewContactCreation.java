@@ -1,33 +1,32 @@
 package pl.stqa.pft.adressbook.tests;
 
-import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.Test;
+import pl.stqa.pft.adressbook.model.Contacts;
 import pl.stqa.pft.adressbook.model.newContactData;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class NewContactCreation extends TestBase {
-
 
 
   @Test
   public void testNewContactCreation() {
     app.goTo().HomePage();
-    Set<newContactData> before = app.contact().all();
+    Contacts before = app.contact().all();
     newContactData contactData = new newContactData().withFirstname("Admin").withLastname("Admin2")
             .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987");
     app.contact().getContact(contactData, true);
     app.goTo().HomePage();
-    Set<newContactData> after = app.contact().all();
-    Assert.assertEquals(after.size(), before.size() + 1);
+    Contacts after = app.contact().all();
+    assertEquals(after.size(), before.size() + 1);
     contactData.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());
     before.add(contactData);
-    Assert.assertEquals(before, after); // przekształcenie listy w zbiory
+    assertEquals(before, after); // przekształcenie listy w zbiory
+
+    assertThat(after, equalTo(
+            before.withAdded(contactData.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
   }
 
 }
