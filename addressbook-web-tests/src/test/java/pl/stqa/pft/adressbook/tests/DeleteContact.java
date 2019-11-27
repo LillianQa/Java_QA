@@ -32,6 +32,7 @@ public class DeleteContact extends TestBase {
     app.group().switchtoAlert();
     app.goTo().HomePage();
     Thread.sleep(1000);
+    assertThat(app.contact().getContactCount(), equalTo(before.size() - 1));
     Contacts after = app.contact().all();
     assertEquals(after.size(), before.size() - 1);
 

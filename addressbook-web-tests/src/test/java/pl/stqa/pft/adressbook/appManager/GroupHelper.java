@@ -66,12 +66,14 @@ public class GroupHelper extends HelperBase {
     initGroupModification();
     fillGroupForm(group);
     submitGroupModification();
+    groupCache = null;
     returnGroupPage();
   }
 
   public void delete(GroupData group) {
     selectGroupbyId(group.getId());
     deleteSelectedGroup();
+    groupCache = null;
     returnGroupPage();
   }
 
@@ -84,15 +86,21 @@ public class GroupHelper extends HelperBase {
     return wd.findElements(By.name("selected[]")).size(); // retrun all elements on the list
   }
 
+  private Groups groupCache = null;
+
   public Groups all() {
-    Groups groups = new Groups();
+    if (groupCache != null) {
+      return new Groups(groupCache);
+    }
+
+    groupCache = new Groups();
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group")); // find all elements in span.group
     for (WebElement element : elements) {
       String name = element.getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value")); // we use this to the comparision the list with help of unique value
-      groups.add(new GroupData().withId(id).withName(name));
+      groupCache.add(new GroupData().withId(id).withName(name));
     }
 
-    return groups;
+    return new Groups(groupCache);
   }
 }

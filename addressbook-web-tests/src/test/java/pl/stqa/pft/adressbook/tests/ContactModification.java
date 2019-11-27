@@ -12,12 +12,14 @@ import static org.testng.Assert.assertEquals;
 
 public class ContactModification extends TestBase {
 
+
   @BeforeMethod
   public void ensurePrecondition() {
     app.goTo().HomePage();
     if (app.contact().all().size() == 0) {
       app.contact().getContact(new newContactData().withFirstname("Admin").withLastname("Admin2")
-              .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987"), true);
+              .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl")
+              .withMobilenumber("+48 678 876 987"), true);
     }
   }
 
@@ -30,8 +32,10 @@ public class ContactModification extends TestBase {
             .withId(modifiedContact.getId()).withFirstname("Admin").withLastname("Admin2")
             .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987");
     app.goTo().HomePage();
-    app.contact().modify(contacts);
+    int getID = contacts.getId();
+    app.contact().modify(contacts, getID);
     Thread.sleep(1000);
+    assertThat(app.contact().getContactCount(), equalTo(before.size()));
     Contacts after = app.contact().all();
     assertEquals(after.size(), before.size());
 

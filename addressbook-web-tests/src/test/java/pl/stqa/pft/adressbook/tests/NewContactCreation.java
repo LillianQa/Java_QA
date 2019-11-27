@@ -6,7 +6,6 @@ import pl.stqa.pft.adressbook.model.newContactData;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class NewContactCreation extends TestBase {
 
@@ -19,11 +18,8 @@ public class NewContactCreation extends TestBase {
             .withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987");
     app.contact().getContact(contactData, true);
     app.goTo().HomePage();
+    assertThat(app.contact().getContactCount(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();
-    assertEquals(after.size(), before.size() + 1);
-    contactData.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt());
-    before.add(contactData);
-    assertEquals(before, after); // przekształcenie listy w zbiory
 
     assertThat(after, equalTo(
             before.withAdded(contactData.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
