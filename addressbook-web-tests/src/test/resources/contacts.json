@@ -6,7 +6,8 @@
     "company": "Anonim 0",
     "home": "+48 123 456 765 0",
     "mobilenumber": "23323 0",
-    "email": "something@gmail.com 0"
+    "email": "something@gmail.com 0",
+    "photo": {}
   },
   {
     "firstname": "Ania 1",
@@ -15,7 +16,8 @@
     "company": "Anonim 1",
     "home": "+48 123 456 765 1",
     "mobilenumber": "23323 1",
-    "email": "something@gmail.com 1"
+    "email": "something@gmail.com 1",
+    "photo": {}
   },
   {
     "firstname": "Ania 2",
@@ -24,7 +26,8 @@
     "company": "Anonim 2",
     "home": "+48 123 456 765 2",
     "mobilenumber": "23323 2",
-    "email": "something@gmail.com 2"
+    "email": "something@gmail.com 2",
+    "photo": {}
   },
   {
     "firstname": "Ania 3",
@@ -33,7 +36,8 @@
     "company": "Anonim 3",
     "home": "+48 123 456 765 3",
     "mobilenumber": "23323 3",
-    "email": "something@gmail.com 3"
+    "email": "something@gmail.com 3",
+    "photo": {}
   },
   {
     "firstname": "Ania 4",
@@ -42,6 +46,7 @@
     "company": "Anonim 4",
     "home": "+48 123 456 765 4",
     "mobilenumber": "23323 4",
-    "email": "something@gmail.com 4"
+    "email": "something@gmail.com 4",
+    "photo": {}
   }
 ]

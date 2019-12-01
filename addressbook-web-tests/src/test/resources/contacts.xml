@@ -7,6 +7,7 @@
     <home>+48 123 456 765 0</home>
     <mobilenumber>23323 0</mobilenumber>
     <email>something@gmail.com 0</email>
+    <photo>src/test/resources/photo.png</photo>
   </Contact>
   <Contact>
     <firstname>Ania 1</firstname>
@@ -16,6 +17,7 @@
     <home>+48 123 456 765 1</home>
     <mobilenumber>23323 1</mobilenumber>
     <email>something@gmail.com 1</email>
+    <photo>src/test/resources/photo.png</photo>
   </Contact>
   <Contact>
     <firstname>Ania 2</firstname>
@@ -25,6 +27,7 @@
     <home>+48 123 456 765 2</home>
     <mobilenumber>23323 2</mobilenumber>
     <email>something@gmail.com 2</email>
+    <photo>src/test/resources/photo.png</photo>
   </Contact>
   <Contact>
     <firstname>Ania 3</firstname>
@@ -34,6 +37,7 @@
     <home>+48 123 456 765 3</home>
     <mobilenumber>23323 3</mobilenumber>
     <email>something@gmail.com 3</email>
+    <photo>src/test/resources/photo.png</photo>
   </Contact>
   <Contact>
     <firstname>Ania 4</firstname>
@@ -43,5 +47,6 @@
     <home>+48 123 456 765 4</home>
     <mobilenumber>23323 4</mobilenumber>
     <email>something@gmail.com 4</email>
+    <photo>src/test/resources/photo.png</photo>
   </Contact>
 </list>

@@ -12,8 +12,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.*;
 
 public class ContactDataGenerator {
 
@@ -58,6 +63,7 @@ public class ContactDataGenerator {
     String json = gson.toJson(contacts);
     Writer writer = new FileWriter(file);
     writer.write(json);
+    writer.flush();
     writer.close();
   }
 
@@ -73,10 +79,10 @@ public class ContactDataGenerator {
   private void saveAsCsv(List<newContactData> contacts, File file) throws IOException {
     Writer writer = new FileWriter(file);
     for (newContactData contact : contacts) { // przechodzimy po wszystkich kontaktach ktore znajduja sie na liscie contacts
-      writer.write(String.format("%s; %s; %s; %s; %s; %s; %s\n", contact.getFirstname(), contact.getLastname(),
+      writer.write(format("%s; %s; %s; %s; %s; %s; %s; %s\n", contact.getFirstname(), contact.getLastname(),
               contact.getTitle(), contact.getCompany(),
               contact.getHomePhone(), contact.getMobilePhone(),
-              contact.getEmail()));
+              contact.getEmail(), contact.getPhoto()));
     }
     writer.close();
   }
@@ -86,13 +92,15 @@ public class ContactDataGenerator {
     List<newContactData> contacts = new ArrayList<newContactData>();
     for (int i = 0; i < count; i++) {
       contacts.add(new newContactData()
-              .withFirstname(String.format("Ania %s", i))
-              .withLastname(String.format("Kowalska %s", i))
-              .withTitle(String.format("Test %s", i))
-              .withCompany(String.format("Anonim %s", i))
-              .withHome(String.format("+48 123 456 765 %s", i))
-              .withMobilenumber(String.format("23323 %s", i))
-              .withEmail(String.format("something@gmail.com %s", i)));
+              .withFirstname(format("Ania %s", i))
+              .withLastname(format("Kowalska %s", i))
+              .withTitle(format("Test %s", i))
+              .withCompany(format("Anonim %s", i))
+              .withHome(format("+48 123 456 765 %s", i))
+              .withMobilenumber(format("23323 %s", i))
+              .withEmail(format("something@gmail.com %s", i))
+              .withPhoto(new File("src/test/resources/photo.png"), i));
+
     }
     return contacts;
   }

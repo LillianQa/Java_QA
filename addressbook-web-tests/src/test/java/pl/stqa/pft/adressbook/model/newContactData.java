@@ -34,6 +34,7 @@ public class newContactData {
   private String allEmails;
   private String allAddress;
   private String allPhones;
+  @Expose
   private File photo;
 
 
@@ -135,7 +136,7 @@ public class newContactData {
     return this;
   }
 
-  public newContactData withPhoto(File photo) {
+  public newContactData withPhoto(File photo, int i) {
     this.photo = photo;
     return this;
   }
