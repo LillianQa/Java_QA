@@ -1,0 +1,47 @@
+<list>
+  <Contact>
+    <firstname>Ania 0</firstname>
+    <lastname>Kowalska 0</lastname>
+    <title>Test 0</title>
+    <company>Anonim 0</company>
+    <home>+48 123 456 765 0</home>
+    <mobilenumber>23323 0</mobilenumber>
+    <email>something@gmail.com 0</email>
+  </Contact>
+  <Contact>
+    <firstname>Ania 1</firstname>
+    <lastname>Kowalska 1</lastname>
+    <title>Test 1</title>
+    <company>Anonim 1</company>
+    <home>+48 123 456 765 1</home>
+    <mobilenumber>23323 1</mobilenumber>
+    <email>something@gmail.com 1</email>
+  </Contact>
+  <Contact>
+    <firstname>Ania 2</firstname>
+    <lastname>Kowalska 2</lastname>
+    <title>Test 2</title>
+    <company>Anonim 2</company>
+    <home>+48 123 456 765 2</home>
+    <mobilenumber>23323 2</mobilenumber>
+    <email>something@gmail.com 2</email>
+  </Contact>
+  <Contact>
+    <firstname>Ania 3</firstname>
+    <lastname>Kowalska 3</lastname>
+    <title>Test 3</title>
+    <company>Anonim 3</company>
+    <home>+48 123 456 765 3</home>
+    <mobilenumber>23323 3</mobilenumber>
+    <email>something@gmail.com 3</email>
+  </Contact>
+  <Contact>
+    <firstname>Ania 4</firstname>
+    <lastname>Kowalska 4</lastname>
+    <title>Test 4</title>
+    <company>Anonim 4</company>
+    <home>+48 123 456 765 4</home>
+    <mobilenumber>23323 4</mobilenumber>
+    <email>something@gmail.com 4</email>
+  </Contact>
+</list>
