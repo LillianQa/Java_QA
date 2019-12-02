@@ -23,33 +23,37 @@ public class NewContactCreation extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validContactsFromXml() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")));
-    StringBuilder xml = new StringBuilder();
-    String line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
+      StringBuilder xml = new StringBuilder();
+      String line = reader.readLine();
 
-    while(line != null) {
-      xml.append(line);
-      line = reader.readLine();
+      while (line != null) {
+        xml.append(line);
+        line = reader.readLine();
+      }
+      XStream xstream = new XStream();
+      xstream.processAnnotations(newContactData.class);
+      List<newContactData> contacts = (List<newContactData>) xstream.fromXML(xml.toString());
+      return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
-    XStream xstream = new XStream();
-    xstream.processAnnotations(newContactData.class);
-    List<newContactData> contacts = (List<newContactData>) xstream.fromXML(xml.toString());
-    return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
   @DataProvider
   public Iterator<Object[]> validContactsFromJson() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
-    StringBuilder json = new StringBuilder();
-    String line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
+      StringBuilder json = new StringBuilder();
+      String line = reader.readLine();
 
-    while(line != null) {
-      json.append(line);
-      line = reader.readLine();
+      while (line != null) {
+        json.append(line);
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();
+      List<newContactData> contacts = gson.fromJson(json.toString(), new TypeToken<List<newContactData>>() {
+      }.getType()); // List<newContactData>.class
+      return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
-    Gson gson = new Gson();
-    List<newContactData> contacts = gson.fromJson(json.toString(), new TypeToken<List<newContactData>>(){}.getType()); // List<newContactData>.class
-    return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator(); }
+  }
 
   @Test(dataProvider = "validContactsFromJson")
   public void testNewContactCreation (newContactData contact) throws InterruptedException {
