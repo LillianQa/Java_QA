@@ -7,7 +7,7 @@
     "home": "+48 123 456 765 0",
     "mobilenumber": "23323 0",
     "email": "something@gmail.com 0",
-    "photo": {}
+    "photo": "src/test/resources/photo.png"
   },
   {
     "firstname": "Ania 1",
@@ -17,7 +17,7 @@
     "home": "+48 123 456 765 1",
     "mobilenumber": "23323 1",
     "email": "something@gmail.com 1",
-    "photo": {}
+    "photo": "src/test/resources/photo.png"
   },
   {
     "firstname": "Ania 2",
@@ -27,7 +27,7 @@
     "home": "+48 123 456 765 2",
     "mobilenumber": "23323 2",
     "email": "something@gmail.com 2",
-    "photo": {}
+    "photo": "src/test/resources/photo.png"
   },
   {
     "firstname": "Ania 3",
@@ -37,7 +37,7 @@
     "home": "+48 123 456 765 3",
     "mobilenumber": "23323 3",
     "email": "something@gmail.com 3",
-    "photo": {}
+    "photo": "src/test/resources/photo.png"
   },
   {
     "firstname": "Ania 4",
@@ -47,6 +47,6 @@
     "home": "+48 123 456 765 4",
     "mobilenumber": "23323 4",
     "email": "something@gmail.com 4",
-    "photo": {}
+    "photo": "src/test/resources/photo.png"
   }
 ]
