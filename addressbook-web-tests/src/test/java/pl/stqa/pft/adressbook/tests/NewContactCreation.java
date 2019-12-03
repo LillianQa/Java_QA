@@ -23,18 +23,21 @@ public class NewContactCreation extends TestBase {
 
   @DataProvider
   public Iterator<Object[]> validContactsFromXml() throws IOException {
+    // tutaj uzywam BufferReader zeby uzyskac dostep do metody .readLine ktora pozwala czytac pliki
     try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
       StringBuilder xml = new StringBuilder();
       String line = reader.readLine();
 
+      // bez cyklu czyta tylko jedna linijke wiec uzywam while
       while (line != null) {
         xml.append(line);
-        line = reader.readLine();
+        line = reader.readLine(); // na kazdej kolejnej iteracji czyta cykl
       }
-      XStream xstream = new XStream();
+      XStream xstream = new XStream(); // nowy obiekt
       xstream.processAnnotations(newContactData.class);
-      List<newContactData> contacts = (List<newContactData>) xstream.fromXML(xml.toString());
-      return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
+      List<newContactData> contacts = (List<newContactData>) xstream.fromXML(xml.toString()); // wywolujemy metode jako liste danych
+      return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator(); // zwracamy kontakty jako potok (stream())
+      // i zwijamy to w tablice z pomoca map i anonimowej funkcji. Wywolujemy collect ktora z potoku zbiera z powrotem dane w liste i zwracamy iterator
     }
   }
 
@@ -55,15 +58,16 @@ public class NewContactCreation extends TestBase {
     }
   }
 
-  @Test(dataProvider = "validContactsFromJson")
+
+  @Test(dataProvider = "validContactsFromJson") // tutaj wskazujemy z jakich danych ma korzystac nasz test
   public void testNewContactCreation (newContactData contact) throws InterruptedException {
     app.goTo().HomePage();
-    Contacts before = app.contact().all();
-    Thread.sleep(3000);
+    Contacts before = app.db().contact();
     app.contact().getContact(contact, true);
     app.goTo().HomePage();
+    Thread.sleep(3000);
     assertThat(app.contact().getContactCount(), equalTo(before.size() + 1));
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contact();
 
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));

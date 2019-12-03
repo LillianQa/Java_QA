@@ -3,13 +3,14 @@ package pl.stqa.pft.adressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pl.stqa.pft.adressbook.model.GroupData;
 import pl.stqa.pft.adressbook.model.Groups;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase {
+
+  Logger logger = LoggerFactory.getLogger(GroupCreationTests.class);
 
   @DataProvider
   public Iterator<Object[]> validGroupsFromXml() throws IOException {
@@ -53,15 +56,13 @@ public class GroupCreationTests extends TestBase {
     }
   }
   @Test(dataProvider = "validGroupsFromJson")
-  public void testGroupCreation(GroupData group) throws InterruptedException {
+  public void testGroupCreation(GroupData group) {
     app.goTo().groupPage();
-    Thread.sleep(2000);
-    Groups before = app.group().all();
+    Groups before = app.db().groups();
     app.group().create(group);
     app.goTo().groupPage();
 //    assertThat(app.group().getGroupCount(), equalTo(before.size()));
-    Thread.sleep(2000);
-    Groups after = app.group().all();
+    Groups after = app.db().groups();
     assertThat(after, equalTo(
             before.withAdded(group.withId(after.stream()
                     .mapToInt((g) -> g.getId())
