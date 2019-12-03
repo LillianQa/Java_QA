@@ -3,39 +3,99 @@ package pl.stqa.pft.adressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 
-@XStreamAlias("Contact")
+// enity, column, type tycza sie polaczenia z baza danych wiec nie patrz na to
+@Entity
+@Table(name = "addressbook")
+@XStreamAlias("Contact") // to dodajemy zeby w plikau xml naglowek zamiast sciezki pliku pokazywala sie nasza nazwa wlasna np Contact
 public class newContactData {
-  @XStreamOmitField
+
+  @Id
+  @Column(name = "id")
+  @XStreamOmitField // omijamy to pole w zapisie pliku xml, bo jest nam zbedne w danych tetsowych
   private int id = Integer.MAX_VALUE;
+
+  @Transient
   private String firstAndLastname;
+
   @Expose
+  @Column(name = "firstname")
+  @Type(type= "string")
   private String firstname;
+
   @Expose
+  @Column(name = "lastname")
+  @Type(type= "string")
   private String lastname;
+
+  @Expose
+  @Column(name = "address")
+  @Type(type= "text")
   private String address;
+
+  @Expose
+  @Column(name = "address2")
+  @Type(type= "text")
   private String addressSecondary;
+
   @Expose
+  @Column(name = "title")
   private String title;
+
   @Expose
+  @Column(name = "company")
   private String company;
+
   @Expose
+  @Column(name = "home")
+  @Type(type= "text")
   private String home;
+
   @Expose
+  @Column(name = "mobile")
+  @Type(type= "text")
   private String mobilenumber;
+
   @Expose
+  @Column(name = "email")
+  @Type(type= "text")
   private String email;
-  private String email2;
-  private String email3;
-  private String group;
-  private String workmobile;
-  private String allEmails;
-  private String allAddress;
-  private String allPhones;
+
   @Expose
-  private File photo;
+  @Column(name = "email2")
+  @Type(type= "text")
+  private String email2;
+
+  @Expose
+  @Column(name = "email3")
+  @Type(type= "text")
+  private String email3;
+
+  @Expose
+  @Type(type= "text")
+  @Column(name = "work")
+  private String workmobile;
+
+  @Expose
+  @Column(name = "photo")
+  @Type(type= "text")
+  private String photo;
+
+  @Transient
+  private String group;
+
+  @Transient
+  private String allEmails;
+
+  @Transient
+  private String allAddress;
+
+  @Transient
+  private String allPhones;
 
 
   public int getId() {
@@ -137,7 +197,7 @@ public class newContactData {
   }
 
   public newContactData withPhoto(File photo, int i) {
-    this.photo = photo;
+    this.photo = photo.getPath();
     return this;
   }
 
@@ -210,19 +270,20 @@ public class newContactData {
   }
 
   public File getPhoto() {
-    return photo;
+    return new File("src/test/resources/photo.png");
   }
+
 
   @Override
   public String toString() {
     return "newContactData{" +
             "id=" + id +
-            ", firstAndLastname='" + firstAndLastname + '\'' +
+//            ", firstAndLastname='" + firstAndLastname + '\'' +
             ", firstname='" + firstname + '\'' +
             ", lastname='" + lastname + '\'' +
-            ", address='" + address + '\'' +
-            ", addressSecondary='" + addressSecondary + '\'' +
-            ", title='" + title + '\'' +
+//            ", address='" + address + '\'' +
+//            ", addressSecondary='" + addressSecondary + '\'' +
+//            ", title='" + title + '\'' +
             '}';
   }
 
