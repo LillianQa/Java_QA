@@ -50,7 +50,7 @@ public class ContactHelper extends HelperBase {
   }
 
   public void editContact(int id) {
-    wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();  }
+    wd.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();  }
 
   public void updateContact() {
     click(By.name("update"));
@@ -66,8 +66,8 @@ public class ContactHelper extends HelperBase {
     submitNewContactForm();
   }
 
-  public void modify(newContactData contacts, int id) {
-    editContact(id);
+  public void modify(newContactData contacts) {
+    editContact(contacts.getId());
     fillNewContactForm(contacts, false);
     updateContact();
   }
@@ -83,8 +83,7 @@ public class ContactHelper extends HelperBase {
   }
 
   private void selectContactbyId(int id) {
-    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
-
+    wd.findElement(By.xpath("//input[@id='" + id + "']")).click();
   }
 
   public int getContactCount() {
@@ -100,7 +99,7 @@ public class ContactHelper extends HelperBase {
     }
 
     contactCache = new Contacts();
-    List<WebElement> elements = wd.findElements(By.cssSelector("div:nth-child(4) form:nth-child(10) table.sortcompletecallback-applyZebra:nth-child(2) tbody:nth-child(1) > tr:nth-child(2)")); // find all elements in td.entry
+    List<WebElement> elements = wd.findElements(By.xpath("//table[@id='maintable']")); // find all elements in td.entry
     List<WebElement> cells = wd.findElements(By.tagName("td"));
     for (WebElement element : elements) {
       String lastname = cells.get(1).getText();
@@ -146,6 +145,7 @@ public class ContactHelper extends HelperBase {
 
   public newContactData infoFromDetails(newContactData contact) {
     initContactDetails(contact.getId());
+    List<WebElement> wholePage = wd.findElements(By.xpath("//div[@id='content']"));
     String firstnameAndLastname = wd.findElement(By.cssSelector("html body div#container div#content b")).getAttribute("text");
     String email = wd.findElement(By.xpath("//div[@id='content']//a[1]")).getAttribute("text");
     String email2 = wd.findElement(By.xpath("//div[@id='content']//a[2]")).getAttribute("text");
