@@ -18,7 +18,7 @@ public class ContactAddressTests extends TestBase {
     newContactData contact = app.contact().all().iterator().next();
     newContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
 
-    assertThat(contact.getAllAddress(), equalTo(mergeAddress1(contactInfoFromEditForm)));
+    assertThat(contact.getAddress(), equalTo(mergeAddress1(contactInfoFromEditForm)));
   }
 
   private String mergeAddress1 (newContactData contact) {
@@ -26,15 +26,12 @@ public class ContactAddressTests extends TestBase {
     if (contact.getAddress() != null) {
       result = result + contact.getAddress();
     }
-    if (contact.getAddressSecondary() != null) {
-      result = result + contact.getAddressSecondary();
-    }
     return result;
   }
 
   private String mergeAddresses(newContactData contact) {
 
-    return Arrays.asList(contact.getAddress(), contact.getAddressSecondary())
+    return Arrays.asList(contact.getAddress())
             .stream().filter((s) -> ! s.equals(""))
             .collect(Collectors.joining("\n"));
 }
