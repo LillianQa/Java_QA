@@ -1,16 +1,30 @@
 package pl.stqa.pft.adressbook.tests;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.thoughtworks.xstream.XStream;
 import org.openqa.selenium.remote.BrowserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 import pl.stqa.pft.adressbook.appManager.ApplicationManager;
+import pl.stqa.pft.adressbook.model.Contacts;
+import pl.stqa.pft.adressbook.model.GroupData;
+import pl.stqa.pft.adressbook.model.Groups;
+import pl.stqa.pft.adressbook.model.newContactData;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestBase  {
 
@@ -40,4 +54,27 @@ public class TestBase  {
 
   }
 
+  public void verifyGroupListInUI() {
+    // in VM options press -DverifyUI=true
+    if (Boolean.getBoolean("verifyGroupUI")) {
+      Groups dbGroups = app.db().groups();
+      Groups uiGroups = app.group().all();
+      // na wejscie przyjmuje grupe obiektow a na wyjsciu gruoupData jako nowy obiekt
+      assertThat(uiGroups, equalTo(dbGroups.stream()
+              .map((g) -> new GroupData().withId(g.getId()).withName(g.getName()))
+              .collect(Collectors.toSet())));
+    }
+  }
+
+  public void verifyContactListInUI() {
+    // in VM options press -DverifyUI=true
+    if (Boolean.getBoolean("verifyContactUI")) {
+      Contacts dbContacts = app.db().contact();
+      Contacts uiContacts = app.contact().all();
+      // na wejscie przyjmuje grupe obiektow a na wyjsciu gruoupData jako nowy obiekt
+      assertThat(uiContacts, equalTo(dbContacts.stream()
+              .map((g) -> new newContactData().withId(g.getId()).withFirstname(g.getFirstname()).withLastname(g.getLastname()))
+              .collect(Collectors.toSet())));
+    }
+  }
 }
