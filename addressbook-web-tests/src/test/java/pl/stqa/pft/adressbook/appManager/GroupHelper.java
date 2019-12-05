@@ -38,6 +38,7 @@ public class GroupHelper extends HelperBase {
   }
 
 
+
   public void selectGroupbyId(int id) {
     wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
   }
@@ -53,6 +54,7 @@ public class GroupHelper extends HelperBase {
   public void switchtoAlert() {
     wd.switchTo().alert().accept();
   }
+
 
   public void create(GroupData group) {
     initGroupCreation();

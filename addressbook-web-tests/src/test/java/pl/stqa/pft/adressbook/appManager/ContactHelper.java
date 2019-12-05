@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import pl.stqa.pft.adressbook.model.Contacts;
+import pl.stqa.pft.adressbook.model.GroupData;
 import pl.stqa.pft.adressbook.model.newContactData;
 
 import java.util.List;
@@ -72,6 +73,34 @@ public class ContactHelper extends HelperBase {
     updateContact();
   }
 
+  public void addContactToGroup() {
+    wd.findElement(By.xpath("//input[@name='add']")).click();
+  }
+
+  public void selectGroupFromMenuLisWithHelpOfId(GroupData group) throws InterruptedException {
+    Thread.sleep(1000);
+    selectGroupFromMenuList(group.getId());
+    Thread.sleep(1000);
+  }
+
+  public void selectContactFromList(newContactData contact) {
+    selectContactbyId(contact.getId());
+  }
+
+  public void removeContactFromGroup() {
+    wd.findElement(By.xpath("//input[@name='remove']")).click();
+  }
+
+  public void selectGroupFromMenuList(int id) {
+    wd.findElement(By.xpath("//select[@name='group']")).click();
+    wd.findElement(By.xpath("//option[@value='" + id + "']")).click();
+  }
+
+  public void selectAllInTheListOfGroup() throws InterruptedException {
+    wd.findElement(By.xpath("//select[@name='group']")).click();
+    wd.findElement(By.xpath("//option[contains(text(),'[all]')]")).click();
+
+  }
 
   public void delete(newContactData contact) {
     selectContactbyId(contact.getId());
@@ -82,7 +111,7 @@ public class ContactHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
-  private void selectContactbyId(int id) {
+  public void selectContactbyId(int id) {
     wd.findElement(By.xpath("//input[@id='" + id + "']")).click();
   }
 

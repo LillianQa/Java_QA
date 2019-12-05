@@ -3,16 +3,20 @@ package pl.stqa.pft.adressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Spliterator;
 
 // enity, column, type tycza sie polaczenia z baza danych wiec nie patrz na to
 @Entity
 @Table(name = "addressbook")
 @XStreamAlias("Contact") // to dodajemy zeby w plikau xml naglowek zamiast sciezki pliku pokazywala sie nasza nazwa wlasna np Contact
-public class newContactData {
+public class newContactData extends Contacts {
 
   @Id
   @Column(name = "id")
@@ -85,8 +89,10 @@ public class newContactData {
   @Type(type= "text")
   private String photo;
 
-  @Transient
-  private String group;
+  @ManyToMany(fetch = FetchType.EAGER) // wyciaganie wiele informacji za jednym razem
+  @JoinTable(name = "address_in_groups",
+          joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id")) // zwiazek miedzy obiektami dwoch typow
+  private Set<GroupData> groups = new HashSet<GroupData>(); // connect between Contact and Groups
 
   @Transient
   private String allEmails;
@@ -171,11 +177,6 @@ public class newContactData {
     return this;
   }
 
-  public newContactData withGroup (String group) {
-    this.group = group;
-    return this;
-  }
-
   public newContactData withWorkMobile (String workmobile) {
     this.workmobile = workmobile;
     return this;
@@ -249,10 +250,6 @@ public class newContactData {
     return email3;
   }
 
-  public String getGroup() {
-    return group;
-  }
-
   public String getWorkPhone() {
     return workmobile;
   }
@@ -273,6 +270,9 @@ public class newContactData {
     return new File("src/test/resources/photo.png");
   }
 
+  public Groups getGroups() {
+    return new Groups(groups);
+  }
 
   @Override
   public String toString() {
@@ -312,5 +312,10 @@ public class newContactData {
     result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
     return result;
+  }
+
+  @Override
+  public Spliterator<newContactData> spliterator() {
+    return null;
   }
 }
