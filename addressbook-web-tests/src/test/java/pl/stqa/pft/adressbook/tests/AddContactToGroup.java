@@ -22,7 +22,9 @@ public class AddContactToGroup extends TestBase{
   }
 
   @BeforeMethod()
-  public void ensurePrecondition1() {
+  public void ensurePrecondition1() throws InterruptedException {
+    app.goTo().HomePage();
+    app.contact().selectAllInTheListOfGroup();
     if (app.db().contact().size() == 0) {
       app.goTo().HomePage();
       app.contact().getContact(new newContactData().withFirstname("Admin").withLastname("Admin2").withTitle("Title").withCompany("Company").withHome("Poland").withEmail("admin@onet.pl").withMobilenumber("+48 678 876 987"), true);
@@ -41,6 +43,7 @@ public class AddContactToGroup extends TestBase{
     GroupData group = new GroupData().withId(chooseGroupFromList.getId());
     newContactData contact = new newContactData().withId(deletedContactFromGroup.getId());
     app.contact().selectGroupFromMenuLisWithHelpOfId(group);
+    Contacts beforecontacts1 = app.db().contact();
     app.contact().selectAllInTheListOfGroup();
     app.goTo().HomePage();
     app.contact().selectContactFromList(contact);
@@ -48,12 +51,13 @@ public class AddContactToGroup extends TestBase{
     Thread.sleep(1000);
     app.goTo().HomePage();
     app.contact().selectGroupFromMenuLisWithHelpOfId(group);
+
+
+    assertThat(app.contact().getContactCount(), equalTo(beforecontacts1.size() + 1));
+
     Contacts after = app.db().contact();
-
-    assertThat(app.contact().getContactCount(), equalTo(beforecontacts.size() - 1));
-
     assertThat(after, equalTo(
-            beforecontacts.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+            beforecontacts1.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     verifyContactListInUI();
   }
 }

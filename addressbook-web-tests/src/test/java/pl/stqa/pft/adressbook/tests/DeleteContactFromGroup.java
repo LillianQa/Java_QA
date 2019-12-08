@@ -36,12 +36,12 @@ public class DeleteContactFromGroup extends TestBase {
   @BeforeMethod
   public void ensurePrecondition2() throws InterruptedException {
 
-      Groups beforegroup = app.db().groups();
-      GroupData chooseGroupFromList = beforegroup.iterator().next();
-      GroupData group = new GroupData().withId(chooseGroupFromList.getId());
-      app.goTo().HomePage();
-      app.contact().selectGroupFromMenuLisWithHelpOfId(group);
-
+    Groups beforegroup = app.db().groups();
+    GroupData chooseGroupFromList = beforegroup.iterator().next();
+    GroupData group = new GroupData().withId(chooseGroupFromList.getId());
+    app.goTo().HomePage();
+    app.contact().selectGroupFromMenuLisWithHelpOfId(group);
+    if (app.db().contact().size() == 0) {
       app.contact().selectAllInTheListOfGroup();
       Contacts beforecontacts = app.db().contact();
       newContactData deletedContactFromGroup = beforecontacts.iterator().next();
@@ -50,6 +50,7 @@ public class DeleteContactFromGroup extends TestBase {
       app.contact().addContactToGroup();
 
     }
+  }
 
   @Test
   public void testDeleteContactFromGroup() throws InterruptedException {
@@ -62,13 +63,17 @@ public class DeleteContactFromGroup extends TestBase {
     app.goTo().HomePage();
     app.contact().selectGroupFromMenuLisWithHelpOfId(group);
     Thread.sleep(1000);
+    Contacts beforecontacts1 = app.db().contact();
     app.contact().selectContactFromList(contact);
     app.contact().removeContactFromGroup();
+    app.goTo().HomePage();
+    app.contact().selectGroupFromMenuLisWithHelpOfId(group);
+    Thread.sleep(1000);
 
-    assertThat(app.contact().getContactCount(), equalTo(beforecontacts.size() - 1));
+    assertThat(app.contact().getContactCount(), equalTo(beforecontacts1.size()));
 
     Contacts after = app.db().contact();
-    assertThat(after, equalTo(beforecontacts.without(deletedContactFromGroup)));
+    assertThat(after, equalTo(beforecontacts1.without(deletedContactFromGroup)));
     verifyContactListInUI();
 
   }
