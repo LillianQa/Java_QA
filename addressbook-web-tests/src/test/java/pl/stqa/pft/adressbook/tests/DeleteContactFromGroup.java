@@ -63,17 +63,17 @@ public class DeleteContactFromGroup extends TestBase {
     app.goTo().HomePage();
     app.contact().selectGroupFromMenuLisWithHelpOfId(group);
     Thread.sleep(1000);
-    Contacts beforecontacts1 = app.db().contact();
+    Groups beforegroups1 = app.db().groups();
     app.contact().selectContactFromList(contact);
     app.contact().removeContactFromGroup();
     app.goTo().HomePage();
     app.contact().selectGroupFromMenuLisWithHelpOfId(group);
     Thread.sleep(1000);
 
-    assertThat(app.contact().getContactCount(), equalTo(beforecontacts1.size()));
+    assertThat(app.contact().getContactCount(), equalTo(beforegroups1.size()));
 
-    Contacts after = app.db().contact();
-    assertThat(after, equalTo(beforecontacts1.without(deletedContactFromGroup)));
+    Groups after = app.db().groups();
+    assertThat(after, equalTo(beforegroups1.without(group)));
     verifyContactListInUI();
 
   }

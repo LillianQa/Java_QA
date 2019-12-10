@@ -43,7 +43,7 @@ public class AddContactToGroup extends TestBase{
     GroupData group = new GroupData().withId(chooseGroupFromList.getId());
     newContactData contact = new newContactData().withId(deletedContactFromGroup.getId());
     app.contact().selectGroupFromMenuLisWithHelpOfId(group);
-    Contacts beforecontacts1 = app.db().contact();
+    Groups beforegroups1 = app.db().groups();
     app.contact().selectAllInTheListOfGroup();
     app.goTo().HomePage();
     app.contact().selectContactFromList(contact);
@@ -53,11 +53,11 @@ public class AddContactToGroup extends TestBase{
     app.contact().selectGroupFromMenuLisWithHelpOfId(group);
 
 
-    assertThat(app.contact().getContactCount(), equalTo(beforecontacts1.size() + 1));
+//    assertThat(app.contact().getContactCount(), equalTo(beforecontacts1.size() + 1));
 
-    Contacts after = app.db().contact();
+    Groups after = app.db().groups();
     assertThat(after, equalTo(
-            beforecontacts1.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+            beforegroups1.withAdded(group.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     verifyContactListInUI();
   }
 }
