@@ -1,5 +1,6 @@
 package pl.stqa.pft.mantis.tests;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -9,8 +10,9 @@ import java.io.File;
 
 public class TestBase {
 
+  WebDriver wd;
 
-  protected static final ApplicationManager app = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
+  protected static final ApplicationManager app = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
 
   @BeforeSuite(alwaysRun = true)
   public void setUp() throws Exception {

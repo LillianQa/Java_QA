@@ -19,17 +19,20 @@ public class ApplicationManager {
 
   private String browser;
   private RegistrationHelper registrationHelper;
+  private FtpHelper ftp;
+  private MailHelper mailHelper;
+  private PanelHelper panelHelper;
 
 
   public ApplicationManager(String browser) {
     this.browser = browser;
     properties = new Properties();
+
   }
 
   public  void init() throws IOException {
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
-
   }
 
   public  void stop() {
@@ -51,7 +54,20 @@ public class ApplicationManager {
       registrationHelper = new RegistrationHelper(this);
     }
     return registrationHelper;
+  }
 
+  public PanelHelper panel() {
+    if (panelHelper == null) {
+      panelHelper = new PanelHelper(this);
+    }
+    return panelHelper;
+  }
+
+  public FtpHelper ftp() {
+    if (ftp == null) {
+      ftp = new FtpHelper(this);
+    }
+    return ftp;
   }
   public WebDriver getDriver() {
     if (wd == null) {
@@ -64,7 +80,15 @@ public class ApplicationManager {
       }
       wd.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
       wd.get(properties.getProperty("web.baseUrl"));
+
     }
     return wd;
+  }
+
+  public MailHelper mail() {
+    if (mailHelper == null) {
+      mailHelper = new MailHelper(this);
+    }
+    return mailHelper;
   }
 }

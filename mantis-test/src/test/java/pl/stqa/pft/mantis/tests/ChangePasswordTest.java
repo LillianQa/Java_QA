@@ -1,5 +1,6 @@
 package pl.stqa.pft.mantis.tests;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class RegistrationTests extends TestBase{
+public class ChangePasswordTest extends TestBase{
 
   @BeforeMethod(alwaysRun = true)
   public void startMailServer() {
@@ -19,16 +20,18 @@ public class RegistrationTests extends TestBase{
   }
 
   @Test
-  public void testRegistration() throws InterruptedException, IOException {
+  public void changePassword() throws IOException {
+    app.panel().login("administrator", "root");
     String email = "user2@localhost.localdomain";
-    String user1 = "user11";
-    app.registration().start(user1, email);
-    List<MailMessage> mailMessages = app.mail().waitForMail(2, 100000);
+    app.panel().resetPassword();
+    List<MailMessage> mailMessages = app.mail().waitForMail(1, 100000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
-    String password = "password";
-    app.registration().finish(confirmationLink, password);
-    assertTrue(app.newSession().login(user1, password));
-    Thread.sleep(2000);
+    app.panel().finish(confirmationLink);
+    app.panel().changePassword("1234567", "1234567");
+    app.panel().login("user7", "1234567");
+    WebElement logoutButton = app.panel().logout();
+    assertTrue(logoutButton.isDisplayed());
+
   }
 
   private String  findConfirmationLink(List<MailMessage> mailMessages, String email) {
@@ -44,4 +47,5 @@ public class RegistrationTests extends TestBase{
   public void stopMailServer() {
     app.mail().stop();
   }
+
 }
