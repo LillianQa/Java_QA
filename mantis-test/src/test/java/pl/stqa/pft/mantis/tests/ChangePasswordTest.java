@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import pl.stqa.pft.mantis.model.MailMessage;
 import ru.lanwen.verbalregex.VerbalExpression;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
@@ -20,15 +19,17 @@ public class ChangePasswordTest extends TestBase{
   }
 
   @Test
-  public void changePassword() throws IOException {
+  public void changePassword() {
     app.panel().login("administrator", "root");
-    String email = "user2@localhost.localdomain";
+    app.panel().getUser();
+    String email = app.panel().getEmail();
     app.panel().resetPassword();
     List<MailMessage> mailMessages = app.mail().waitForMail(1, 100000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
     app.panel().finish(confirmationLink);
-    app.panel().changePassword("1234567", "1234567");
-    app.panel().login("user7", "1234567");
+    String username = app.panel().getUsername();
+    app.panel().changePassword("12345678", "12345678");
+    app.panel().login(username, "12345678");
     WebElement logoutButton = app.panel().logout();
     assertTrue(logoutButton.isDisplayed());
 
